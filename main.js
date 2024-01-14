@@ -1,24 +1,42 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+class Game {
+    constructor(canvas) {
+        this.canvas = canvas;
+        this.width = this.canvas.width;
+        this.height = this.canvas.height;  // ensure that width & height of the canvas same as canvas
+        this.posX = 50;
 
-setupCounter(document.querySelector('#counter'))
+        window.addEventListener('resize', e => { // e gives us the event of the current window
+            this.resize(e.target.innerWidth, e.target.innerHeight)
+        });
+    }
+    resize(width, height) {
+        this.canvas.width = width;
+        this.canvas.height = height;
+        this.width = width;
+        this.height = height;
+    }
+
+    render(context) {
+       this.posX++; 
+        context.fillRect(this.posX, 100, 50, 150);
+    }
+}
+
+window.addEventListener('load', function() {
+    const canvas = document.getElementById('canvas1')
+    const ctx = canvas.getContext('2d')
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    ctx.fillStyle = 'green'
+
+    const game = new Game(canvas);
+
+    function animate(){
+        ctx.clearRect(0, 0 , canvas.width, canvas.height)
+        game.render(ctx)
+        requestAnimationFrame(animate)
+    }
+    requestAnimationFrame(animate)
+
+})
