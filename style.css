@@ -45,6 +45,10 @@
 
 }
 
+.assets{
+    display: none;
+}
+
 @media screen and (max-width: 900px){
     #canvas1{
         background: url("./assets/images/background1080x1920.png");
